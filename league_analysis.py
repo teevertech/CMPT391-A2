@@ -2,25 +2,10 @@
 
 import sys
 import pandas
+from data_processing import process_data 
 
 results_path = "./input/results.csv"
 stats_path = "./input/stats.csv"
-
-
-# Remove unecessary columns and add information where needed
-def clean_data():
-
-    # Load the data
-    results = pandas.read_csv(results_path);
-    stats = pandas.read_csv(stats_path);
-
-    # Example cleaning section
-    drop_cols = ['big_chance_missed', 'backward_pass']
-    stats_cleaned = stats.drop(columns=drop_cols)
-
-    results_cleaned = results; # just a stub for the return function
-
-    return results_cleaned, stats_cleaned;
 
 # Stub Function for analysis
 def analyze_data(results, stats):
@@ -31,9 +16,13 @@ def analyze_data(results, stats):
     return
 
 def main():
-    results_cleaned, stats_cleaned = clean_data();
+    # Load the data
+    results = pandas.read_csv(results_path);
+    stats = pandas.read_csv(stats_path);
 
-    analyze_data(results_cleaned, stats_cleaned);
+    results_processed, stats_processed = process_data(results, stats);
+
+    analyze_data(results_processed, stats_processed);
 
 if __name__ == "__main__":
     main()
