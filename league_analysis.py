@@ -19,6 +19,27 @@ output_dir = "./output"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
+# Tee Logger - writes to both console and file
+class Logger:
+    def __init__(self, filename):
+        self.terminal = sys.stdout
+        self.log = open(filename, "w")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):
+        self.terminal.flush()
+        self.log.flush()
+
+    def close(self):
+        self.log.close()
+
+# Set up logging
+logger = Logger(os.path.join(output_dir, "analysis.txt"))
+sys.stdout = logger
+
 def get_home_goals_win_rule(results):
     # Returns association rules for home_goals,year->home_win
 
@@ -130,12 +151,25 @@ def get_team_goals_win_rule(results):
 # Stub Function for analysis
 def analyze_data(results, stats):
     print("Analyzing Data");
-    print(f"Results shape: {results.shape}");
-    print(f"Stats shape: {stats.shape}");
 
-    print(get_home_goals_win_rule(results))
-    print(get_away_goals_win_rule(results))
-    print(get_team_goals_win_rule(results))
+    # Basic match statistics
+    print("\n1. MATCH STATISTICS")
+    print("-"*100)
+    print(f"Total matches analyzed: {len(results)}");
+    print(f"Seasons covered: {results['season_start'].min()} - {results['season_start'].max()}")
+    print(f"Number of unique teams: {len(set(results['home_team'].unique()) | set(results['away_team'].unique()))}")
+
+    print("\nHome Goals vs Home Win Rules");
+    print("-"*100);
+    print(get_home_goals_win_rule(results));
+
+    print("\nAway Goals vs Away Win Rules");
+    print("-"*100);
+    print(get_away_goals_win_rule(results));
+
+    print("\nTeam Goals + Role + Season → Win Rules");
+    print("-"*100)
+    print(get_team_goals_win_rule(results));
 
 def main():
     # Load the data
