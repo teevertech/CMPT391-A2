@@ -11,7 +11,10 @@ source venv/bin/activate
 
 # Upgrade pip and install dependencies
 pip install --upgrade pip
-pip install pandas 
+pip install pandas
+pip install scikit-learn
+pip install matplotlib
+pip install mlxtend
 
 # Freeze dependencies
 pip freeze > requirements.txt
