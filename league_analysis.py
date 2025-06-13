@@ -6,7 +6,11 @@ import pandas
 from data_processing import process_data
 from visualizations import create_visualizations
 
+
 from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+
 import matplotlib.pyplot as plt
 from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
@@ -94,7 +98,6 @@ def get_away_goals_win_rule(results):
 
     return away_win_rules[['antecedents', 'consequents', 'support', 'confidence', 'lift', 'count']]
 
-
 def get_team_goals_win_rule(results):
     # Returns association rules for team_goals,year->team_win
 
@@ -148,10 +151,36 @@ def get_team_goals_win_rule(results):
     # Return relevant columns
     return win_rules_with_team[['antecedents', 'consequents', 'support', 'confidence', 'lift']]
 
+# https://www.statology.org/performing-cluster-analysis-in-python-a-step-by-step-tutorial/
+def cluster_analysis(stats):
+    print("\n" + "="*100)
+    print("CLUSTERING ANALYSIS")
+    print("="*100)
+
+    # Select features for clustering
+    clustering_features = ['wins', 'goals', 'goals_conceded', 'total_yel_card',
+        'total_scoring_att', 'saves', 'total_tackle', 'total_pass']
+
+    # Some extra cleaning, fill any NaN with 0
+    cluster_data = stats[clustering_features].fillna(0)
+
+    # Standardize the features
+    # "Normalization: scale the values of attributes.
+    # This will be helpful for the effectiveness of the clustering algorithm."
+    scaler = StandardScaler()
+    scaled_data = scaler.fit_transform(cluster_data)
+
+    # Perform K-means clustering
+    kmeans = KMeans(n_clusters=4, random_state=42, n_init=10)
+    stats['cluster'] = kmeans.fit_predict(scaled_data)
+
+    print("\nCLUSTER CHARACTERISTICS")
+    print("-"*100)
+    cluster_summary = stats.groupby('cluster')[clustering_features].mean().round(2)
+    print(cluster_summary)
+
 # Stub Function for analysis
 def analyze_data(results, stats):
-    print("Analyzing Data");
-
     # Basic match statistics
     print("\n1. MATCH STATISTICS")
     print("-"*100)
@@ -170,6 +199,8 @@ def analyze_data(results, stats):
     print("\nTeam Goals + Role + Season → Win Rules");
     print("-"*100)
     print(get_team_goals_win_rule(results));
+
+    cluster_analysis(stats)
 
 def main():
     # Load the data
