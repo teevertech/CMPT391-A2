@@ -1,12 +1,17 @@
 #!/bin/bash
+# Exit on any error
+set -e
 
-# Check if we're in a virtual environment
-if [ -z "$VIRTUAL_ENV" ]; then
-    echo "Virtual environment not active. Activating it..."
+echo "Virtual environment not active. Activating it..."
+# Check if Unix-style path exists, else try Windows path.
+if [ -f "venv/bin/activate" ]; then
     source venv/bin/activate
+elif [ -f "venv/Scripts/activate" ]; then
+    source venv/Scripts/activate
 else
-    echo "Virtual environment is already active."
+    echo "Error: Cannot find virtual environment activation script."
+    exit 1
 fi
 
-# Run the analysis script
-python3 ./league_analysis.py
+# Now that the virtual environment is active, run Python analysis script.
+python league_analysis.py

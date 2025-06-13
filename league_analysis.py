@@ -40,6 +40,33 @@ class Logger:
 logger = Logger(os.path.join(output_dir, "analysis.txt"))
 sys.stdout = logger
 
+def plot_rules(rules, title, output_filename):
+    """
+    Generate a bar chart for the top 10 association rules based on confidence.
+    
+    Parameters:
+    - rules: DataFrame containing the association rules.
+    - title: Title for the plot.
+    - output_filename: Path to save the resulting plot.
+    """
+    # Sort rules by confidence and pick the top 10
+    rules_sorted = rules.sort_values(by="confidence", ascending=False).head(10)
+    
+    # Create labels from the antecedents
+    labels = [", ".join(list(antecedent)) for antecedent in rules_sorted["antecedents"]]
+    
+    plt.figure(figsize=(10, 6))
+    plt.bar(range(len(rules_sorted)), rules_sorted["confidence"], tick_label=labels)
+    plt.title(title)
+    plt.xlabel("Rule (Antecedents)")
+    plt.ylabel("Confidence")
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+    
+    # Save the plot to a file
+    plt.savefig(output_filename)
+    plt.show()
+
 def get_home_goals_win_rule(results):
     # Returns association rules for home_goals,year->home_win
 
@@ -150,29 +177,30 @@ def get_team_goals_win_rule(results):
 
 # Stub Function for analysis
 def analyze_data(results, stats):
-    print("Analyzing Data");
+    print("Analyzing Data")
+    print(f"Results shape: {results.shape}")
+    print(f"Stats shape: {stats.shape}")
 
-    # Basic match statistics
-    print("\n1. MATCH STATISTICS")
-    print("-"*100)
-    print(f"Total matches analyzed: {len(results)}");
-    print(f"Seasons covered: {results['season_start'].min()} - {results['season_start'].max()}")
-    print(f"Number of unique teams: {len(set(results['home_team'].unique()) | set(results['away_team'].unique()))}")
+    home_rules = get_home_goals_win_rule(results)
+    away_rules = get_away_goals_win_rule(results)
+    team_rules = get_team_goals_win_rule(results)
 
-    print("\nHome Goals vs Home Win Rules");
-    print("-"*100);
-    print(get_home_goals_win_rule(results));
-
-    print("\nAway Goals vs Away Win Rules");
-    print("-"*100);
-    print(get_away_goals_win_rule(results));
-
-    print("\nTeam Goals + Role + Season → Win Rules");
-    print("-"*100)
-    print(get_team_goals_win_rule(results));
+    # Print the rules for text-based output
+    print(home_rules)
+    print(away_rules)
+    print(team_rules)
+    
+    # Now, plot the top rules and save the visuals in the 'output' folder
+    plot_rules(home_rules, "Top Home Win Rules", "output/home_win_rules.png")
+    plot_rules(away_rules, "Top Away Win Rules", "output/away_win_rules.png")
+    plot_rules(team_rules, "Top Team Win Rules", "output/team_win_rules.png")
 
 def main():
     # Load the data
+
+    if not os.path.exists("output"):
+        os.makedirs("output")
+
     results = pandas.read_csv(results_path);
     stats = pandas.read_csv(stats_path);
 

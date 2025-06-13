@@ -7,7 +7,14 @@ set -e
 python3 -m venv venv
 
 # Activate the virtual environment
-source venv/bin/activate
+if [ -f "venv/bin/activate" ]; then
+    source venv/bin/activate
+elif [ -f "venv/Scripts/activate" ]; then
+    source venv/Scripts/activate
+else
+    echo "Could not find activation script."
+    exit 1
+fi
 
 # Upgrade pip and install dependencies
 pip install --upgrade pip
