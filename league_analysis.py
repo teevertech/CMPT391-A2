@@ -1,16 +1,44 @@
 #!/usr/bin/env python3
-
 import os
 import sys
 import pandas
-from sklearn.cluster import KMeans
+
 from data_processing import process_data
+from visualizations import create_visualizations
+
+from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
 
 results_path = "./input/results.csv"
 stats_path = "./input/stats.csv"
+output_dir = "./output"
+
+# Create output directory if it doesn't exist
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+# Tee Logger - writes to both console and file
+class Logger:
+    def __init__(self, filename):
+        self.terminal = sys.stdout
+        self.log = open(filename, "w")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):
+        self.terminal.flush()
+        self.log.flush()
+
+    def close(self):
+        self.log.close()
+
+# Set up logging
+logger = Logger(os.path.join(output_dir, "analysis.txt"))
+sys.stdout = logger
 
 def plot_rules(rules, title, output_filename):
     """
@@ -109,7 +137,7 @@ def get_team_goals_win_rule(results):
         else:
             home_result = 'draw'
             away_result = 'draw'
-            
+
         rows.append([
             f"team:{row['home_team']}",
             'role:home',
@@ -117,7 +145,7 @@ def get_team_goals_win_rule(results):
             f"season:{row['season_start']}",
             f"result:{home_result}"
         ])
-        
+
         # Away team record
         rows.append([
             f"team:{row['away_team']}",
@@ -179,6 +207,8 @@ def main():
     results_processed, stats_processed = process_data(results, stats);
 
     analyze_data(results_processed, stats_processed);
+
+    create_visualizations(results_processed, stats_processed);
 
 if __name__ == "__main__":
     main()

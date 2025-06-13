@@ -1,0 +1,73 @@
+Analyzing Data
+
+1. MATCH STATISTICS
+----------------------------------------------------------------------------------------------------
+Total matches analyzed: 4560
+Seasons covered: 2006 - 2017
+Number of unique teams: 39
+
+Home Goals vs Home Win Rules
+----------------------------------------------------------------------------------------------------
+            antecedents consequents   support  confidence      lift  count
+15  (3_home_goals_2016)   (HomeWin)  0.011623    0.929825  2.011385     53
+13  (3_home_goals_2009)   (HomeWin)  0.010307    0.921569  1.993526     47
+12  (3_home_goals_2006)   (HomeWin)  0.010088    0.901961  1.951111     46
+14  (3_home_goals_2011)   (HomeWin)  0.011184    0.894737  1.935484     51
+0   (2_home_goals_2006)   (HomeWin)  0.016009    0.784946  1.697986     73
+1   (2_home_goals_2007)   (HomeWin)  0.013816    0.750000  1.622391     63
+10  (2_home_goals_2016)   (HomeWin)  0.013816    0.741176  1.603304     63
+3   (2_home_goals_2009)   (HomeWin)  0.016667    0.737864  1.596139     76
+2   (2_home_goals_2008)   (HomeWin)  0.015351    0.736842  1.593928     70
+8   (2_home_goals_2014)   (HomeWin)  0.015789    0.705882  1.526956     72
+5   (2_home_goals_2011)   (HomeWin)  0.013158    0.697674  1.509201     60
+7   (2_home_goals_2013)   (HomeWin)  0.012281    0.658824  1.425159     56
+11  (2_home_goals_2017)   (HomeWin)  0.012939    0.648352  1.402506     59
+4   (2_home_goals_2010)   (HomeWin)  0.015351    0.648148  1.402066     70
+6   (2_home_goals_2012)   (HomeWin)  0.012939    0.578431  1.251256     59
+9   (2_home_goals_2015)   (HomeWin)  0.011404    0.571429  1.236107     52
+
+Away Goals vs Away Win Rules
+----------------------------------------------------------------------------------------------------
+            antecedents consequents   support  confidence      lift  count
+9   (3_away_goals_2008)   (AwayWin)  0.005921    0.900000  3.186335     27
+15  (3_away_goals_2015)   (AwayWin)  0.007018    0.864865  3.061944     32
+17  (3_away_goals_2017)   (AwayWin)  0.006140    0.848485  3.003953     28
+12  (3_away_goals_2012)   (AwayWin)  0.006798    0.837838  2.966258     31
+16  (3_away_goals_2016)   (AwayWin)  0.005482    0.833333  2.950311     25
+13  (3_away_goals_2013)   (AwayWin)  0.008772    0.816327  2.890100     40
+11  (3_away_goals_2011)   (AwayWin)  0.005702    0.812500  2.876553     26
+14  (3_away_goals_2014)   (AwayWin)  0.005702    0.812500  2.876553     26
+10  (3_away_goals_2010)   (AwayWin)  0.006360    0.743590  2.632585     29
+3   (2_away_goals_2011)   (AwayWin)  0.012061    0.679012  2.403957     55
+1   (2_away_goals_2007)   (AwayWin)  0.009649    0.628571  2.225377     44
+0   (2_away_goals_2006)   (AwayWin)  0.008114    0.606557  2.147439     37
+8   (2_away_goals_2017)   (AwayWin)  0.008553    0.600000  2.124224     39
+5   (2_away_goals_2013)   (AwayWin)  0.008553    0.590909  2.092038     39
+2   (2_away_goals_2008)   (AwayWin)  0.008991    0.585714  2.073647     41
+7   (2_away_goals_2016)   (AwayWin)  0.008991    0.569444  2.016046     41
+6   (2_away_goals_2014)   (AwayWin)  0.008772    0.547945  1.939930     40
+4   (2_away_goals_2012)   (AwayWin)  0.008991    0.500000  1.770186     41
+
+Team Goals + Role + Season → Win Rules
+----------------------------------------------------------------------------------------------------
+                             antecedents   consequents   support  confidence      lift
+16                        (team:arsenal)  (result:win)  0.027961    0.559211  1.501767
+17                        (team:chelsea)  (result:win)  0.030263    0.605263  1.625442
+18                      (team:liverpool)  (result:win)  0.025658    0.513158  1.378092
+19                (team:manchester city)  (result:win)  0.028070    0.561404  1.507656
+20              (team:manchester united)  (result:win)  0.031798    0.635965  1.707892
+21              (team:tottenham hotspur)  (result:win)  0.025000    0.500000  1.342756
+173              (team:chelsea, goals:2)  (result:win)  0.011294    0.811024  2.178014
+174    (team:manchester united, goals:2)  (result:win)  0.010855    0.838983  2.253099
+175    (goals:2, team:tottenham hotspur)  (result:win)  0.010526    0.755906  2.029994
+231            (team:chelsea, role:away)  (result:win)  0.013487    0.539474  1.448763
+232  (team:manchester united, role:away)  (result:win)  0.013048    0.521930  1.401649
+247            (role:home, team:arsenal)  (result:win)  0.016667    0.666667  1.790342
+249            (team:chelsea, role:home)  (result:win)  0.016776    0.671053  1.802120
+251            (role:home, team:everton)  (result:win)  0.013268    0.530702  1.425206
+253          (team:liverpool, role:home)  (result:win)  0.014912    0.596491  1.601885
+255    (role:home, team:manchester city)  (result:win)  0.017105    0.684211  1.837456
+257  (role:home, team:manchester united)  (result:win)  0.018750    0.750000  2.014134
+259  (role:home, team:tottenham hotspur)  (result:win)  0.015132    0.605263  1.625442
+Creating Visualizations
+

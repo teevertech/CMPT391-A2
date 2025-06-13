@@ -22,6 +22,7 @@ pip install pandas
 pip install scikit-learn
 pip install matplotlib
 pip install mlxtend
+pip install seaborn
 
 # Freeze dependencies
 pip freeze > requirements.txt
